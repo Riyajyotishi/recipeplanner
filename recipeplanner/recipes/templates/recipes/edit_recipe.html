@@ -1,0 +1,112 @@
+{% extends 'recipes/base.html' %}
+{% block content %}
+
+<style>
+/* ===== PAGE ANIMATION ===== */
+.edit-container {
+    animation: fadeSlide 0.8s ease;
+}
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== FORM CARD ===== */
+.edit-card {
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+.edit-card:hover {
+    transform: scale(1.01);
+}
+
+/* ===== INPUT EFFECT ===== */
+.form-control:focus, .form-select:focus {
+    border-color: #198754;
+    box-shadow: 0 0 10px rgba(25,135,84,0.3);
+}
+
+/* ===== BUTTON ANIMATION ===== */
+.btn-save {
+    transition: all 0.3s ease;
+}
+.btn-save:hover {
+    transform: scale(1.05);
+}
+</style>
+
+<div class="container my-5 edit-container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card edit-card p-4">
+                <h3 class="text-center mb-4 text-success">
+                    ✏️ Edit Recipe
+                </h3>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Recipe Title</label>
+                        <input type="text" name="title"
+                               value="{{ recipe.title }}"
+                               class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ingredients</label>
+                        <textarea name="ingredients"
+                                  class="form-control" rows="3" required>{{ recipe.ingredients }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description"
+                                  class="form-control" rows="3">{{ recipe.description }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Instructions</label>
+                        <textarea name="instructions"
+                                  class="form-control" rows="4" required>{{ recipe.instructions }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select">
+                            {% for key, value in recipe.CATEGORY_CHOICES %}
+                                <option value="{{ key }}"
+                                  {% if recipe.category == key %}selected{% endif %}>
+                                  {{ value }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'recipe_list' %}"
+                           class="btn btn-outline-secondary">
+                            ⬅ Back
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-success btn-save px-4">
+                            💾 Update Recipe
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

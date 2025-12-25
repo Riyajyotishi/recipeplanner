@@ -1,0 +1,141 @@
+{% extends 'recipes/base.html' %}
+{% block content %}
+
+<style>
+/* ===== CAROUSEL TEXT ===== */
+.carousel-caption h2 {
+    background: rgba(0,0,0,0.6);
+    padding: 15px 30px;
+    border-radius: 15px;
+    animation: zoomFade 1.2s ease;
+}
+
+@keyframes zoomFade {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title {
+    font-weight: bold;
+    text-align: center;
+    margin: 60px 0 40px;
+    position: relative;
+}
+
+.section-title::after {
+    content: "";
+    width: 90px;
+    height: 4px;
+    background: #198754;
+    display: block;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+/* ===== CARD DESIGN ===== */
+.card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    animation: fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.card-title {
+    color: #198754;
+    font-weight: bold;
+}
+
+.btn-outline-success {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background: #198754;
+    color: white;
+    transform: scale(1.1);
+}
+</style>
+
+<!-- ===== CAROUSEL ===== -->
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://images.unsplash.com/photo-1499028344343-cd173ffc68a9"
+                 class="d-block w-100" height="450">
+            <div class="carousel-caption">
+                <h2>Discover Amazing Recipes</h2>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836"
+                 class="d-block w-100" height="450">
+            <div class="carousel-caption">
+                <h2>Plan Your Meals Smartly</h2>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+                 class="d-block w-100" height="450">
+            <div class="carousel-caption">
+                <h2>Cook Healthy & Tasty</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  <!-- ===== SEARCH BAR ===== -->
+    <form method="GET" class="d-flex mb-4">
+        <input type="text" name="search" class="form-control me-2"
+               placeholder="Search recipe...">
+        <button class="btn btn-outline-success">Search</button>
+    </form>
+
+<!-- ===== CATEGORY FILTER BUTTONS ===== -->
+<div class="text-center mb-4 mt-4">
+    <a href="/" class="btn btn-dark btn-sm">All</a>
+    <a href="/?category=Breakfast" class="btn btn-warning btn-sm">Breakfast</a>
+    <a href="/?category=Lunch" class="btn btn-success btn-sm">Lunch</a>
+    <a href="/?category=Dinner" class="btn btn-primary btn-sm">Dinner</a>
+</div>
+
+<!-- ===== RECIPES ===== -->
+<div class="container">
+    <h2 class="section-title">🍲 Our Recipes</h2>
+
+    <div class="row">
+        {% for recipe in recipes %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <p>{{ recipe.description|truncatewords:20 }}</p>
+                    <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-outline-success btn-sm">View Recipe</a>
+                    <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                    <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-danger btn-sm">
+    Delete
+</a>
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No recipes available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

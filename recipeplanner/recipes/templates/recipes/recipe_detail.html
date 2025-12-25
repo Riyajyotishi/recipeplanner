@@ -1,0 +1,96 @@
+{% extends 'recipes/base.html' %}
+{% block content %}
+
+<style>
+/* ===== PAGE ANIMATION ===== */
+.detail-wrapper {
+    animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== CARD DESIGN ===== */
+.recipe-card {
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.recipe-card:hover {
+    transform: scale(1.02);
+}
+
+/* ===== HEADER ===== */
+.recipe-header {
+    background: linear-gradient(120deg, #198754, #28a745);
+    color: white;
+    padding: 30px;
+}
+
+.badge-category {
+    background: rgba(255,255,255,0.25);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* ===== SECTION ===== */
+.section-title {
+    font-weight: bold;
+    border-left: 5px solid #198754;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+.back-btn:hover {
+    transform: translateX(-5px);
+    transition: 0.3s;
+}
+</style>
+
+<div class="container my-5 detail-wrapper">
+    <div class="recipe-card">
+
+        <!-- HEADER -->
+        <div class="recipe-header">
+            <h2>{{ recipe.title }}</h2>
+            <span class="badge-category">{{ recipe.category }}</span>
+        </div>
+
+        <!-- BODY -->
+        <div class="p-4">
+
+            <!-- DESCRIPTION -->
+            <h5 class="section-title">📄 Description</h5>
+            <p>{{ recipe.description }}</p>
+
+            <!-- INGREDIENTS -->
+            <h5 class="section-title">🥕 Ingredients</h5>
+            <p style="white-space: pre-line;">{{ recipe.ingredients }}</p>
+
+            <!-- INSTRUCTIONS -->
+            <h5 class="section-title">👩‍🍳 Instructions</h5>
+            <p style="white-space: pre-line;">{{ recipe.instructions }}</p>
+
+            <!-- BUTTONS -->
+            <div class="mt-4 d-flex gap-2">
+                <a href="{% url 'recipe_list' %}" class="btn btn-dark back-btn">
+                    ⬅ Back
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
